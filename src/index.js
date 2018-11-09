@@ -29,7 +29,7 @@ createTempDir()
   .then(rawAudioFile => audioPeaks.getPeaks(rawAudioFile))
   .then(peaks => svgCreator.peaksToSvg(peaks))
   .then(svg => writeToFile(svg, output))
-  .catch(e => console.log('Ow no!: ',e) )
+  .catch(e => { console.log('Could not convert file: ',e); process.exit(1); })
   .finally(() => removeDir(tmpDir))
 
 function createTempDir() {
