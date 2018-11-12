@@ -159,4 +159,4 @@ class AudioPeaks {
 	}
 }
 
-module.exports = AudioPeaks
+module.exports = AudioPeaks;

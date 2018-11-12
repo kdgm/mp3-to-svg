@@ -2,9 +2,9 @@ const fs         = require('fs');
 const path       = require('path');
 const Readable   = require('stream').Readable;
 const rimraf     = require('rimraf');
-const ffmpeg     = new (require('./ffmpeg.js'))
-const AudioPeaks = require('./audiopeaks.js')
-const SvgCreator = require('./svgcreator.js')
+const ffmpeg     = new (require('./ffmpeg.js'))();
+const AudioPeaks = require('./audiopeaks.js');
+const SvgCreator = require('./svgcreator.js');
 
 const input  = process.argv[2];
 const output = process.argv[3];
@@ -22,7 +22,7 @@ const audioPeaks = new AudioPeaks({
 	numOfChannels: 2,
 	sampleRate: 11500
 });
-const svgCreator = new SvgCreator(numberOfSamples)
+const svgCreator = new SvgCreator(numberOfSamples);
 
 createTempDir()
   .then(dir => {
@@ -37,15 +37,15 @@ createTempDir()
     console.log('Could not convert file: ',e);
     process.exit(1);
   })
-  .finally(() => removeDir(tmpDir))
+  .finally(() => removeDir(tmpDir));
 
 function createTempDir() {
   return new Promise((resolve, reject) => {
     fs.mkdtemp(path.join(__dirname, '../', 'tmp', 'ffpeaks-'), (err, tmpPath) => {
       if (err)
-        reject(err)
+        reject(err);
       else {
-        resolve(tmpPath)
+        resolve(tmpPath);
       }
     });
   });

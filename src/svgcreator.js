@@ -3,7 +3,7 @@ const Svgo = require('svgo');
 class SvgCreator {
 
   constructor(numberOfSamples) {
-    this.numberOfSamples = numberOfSamples
+    this.numberOfSamples = numberOfSamples;
     this.svgo = new Svgo({ plugins: [{removeUnknownsAndDefaults: false}, {convertPathData: false}]});
   }
 
@@ -37,7 +37,7 @@ class SvgCreator {
         .then(path => this.buildSVG(path, this.numberOfSamples) )
         .then(data => this.svgo.optimize(data))
         .then(svg  => resolve(svg.data))
-        .catch(err => reject(err))
+        .catch(err => reject(err));
     });
   }
 

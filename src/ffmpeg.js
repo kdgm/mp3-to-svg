@@ -25,7 +25,7 @@ class ffmpeg {
       ]);
       ffmpeg.stdout.on('end',  ()    => resolve(remuxfilepath));
       ffmpeg.stderr.on('data', (err) => errorMsg += err.toString());
-      ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)) });
+      ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)); });
     });
   }
 
@@ -44,7 +44,7 @@ class ffmpeg {
   		]);
   		ffmpeg.stdout.on('end',  ()    => resolve(rawfilepath));
   		ffmpeg.stderr.on('data', (err) => errorMsg += err.toString());
-  		ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)) });
+  		ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)); });
     });
 	};
 }
