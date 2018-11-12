@@ -25,11 +25,18 @@ const audioPeaks = new AudioPeaks({
 const svgCreator = new SvgCreator(numberOfSamples)
 
 createTempDir()
-  .then(dir => { tmpDir = dir; console.log(tmpDir); return ffmpeg.audioToRaw(input, tmpDir); })
+  .then(dir => {
+    tmpDir = dir;
+    return ffmpeg.audioToRaw(input, tmpDir);
+  })
   .then(rawAudioFile => audioPeaks.getPeaks(rawAudioFile))
   .then(peaks => svgCreator.peaksToSvg(peaks))
   .then(svg => writeToFile(svg, output))
-  .catch(e => { console.log('Could not convert file: ',e); process.exit(1); })
+  .then(() => console.log("Done."))
+  .catch(e => {
+    console.log('Could not convert file: ',e);
+    process.exit(1);
+  })
   .finally(() => removeDir(tmpDir))
 
 function createTempDir() {
@@ -57,7 +64,6 @@ function writeToFile(data, filename) {
 }
 
 function removeDir(tmpDir) {
-  console.log('removeDir: ', tmpDir);
   return new Promise( (resolve, reject) => {
     rimraf(tmpDir, (err) => {
 			if (err)
