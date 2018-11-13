@@ -20,6 +20,9 @@
     "test-cov": "babel-node ./node_modules/.bin/isparta cover _mocha",
     "test": "babel-node ./node_modules/.bin/_mocha"
   },
+  "bin": {
+    "mp3-to-svg": "./lib/index.js"
+  },
   "engines": {
     "node": ">=8.0",
     "npm": ">=5.0"
