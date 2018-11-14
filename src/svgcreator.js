@@ -21,9 +21,9 @@ class SvgCreator {
         let d = '';
         for (let peakNumber = 0; peakNumber < totalPeaks; peakNumber++) {
           if (peakNumber % 2 === 0) {
-            d += ' M' + ~~(peakNumber / 2) + ', ' + peaks.shift();
+            d += ' M' + ~~(peakNumber / 2) + ', ' + peaks.shift().toFixed(3);
           } else {
-            d += ' L' + ~~(peakNumber / 2) + ', ' + peaks.shift();
+            d += ' L' + ~~(peakNumber / 2) + ', ' + peaks.shift().toFixed(3);
           }
         }
         resolve(d);
