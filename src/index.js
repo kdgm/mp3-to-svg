@@ -11,36 +11,62 @@ const SvgCreator = require('./svgcreator.js');
 
 const input  = process.argv[2];
 const output = process.argv[3];
-const numberOfSamples = process.argv[4] || 100;
+
+const versions = [];
+for(let i=4; i < process.argv.length; i++ ) {
+  versions.push(process.argv[i]);
+}
+
 let tmpDir = '';
 
 console.log('Start MP3 to SVG.....');
 console.log("Input:", input);
 console.log("Ouput:", output);
-console.log("NumberOfSamples:", numberOfSamples);
-
-const audioPeaks = new AudioPeaks({
-  width: numberOfSamples,
-	precision: 1,
-	numOfChannels: 2,
-	sampleRate: 11500
-});
-const svgCreator = new SvgCreator(numberOfSamples);
+console.log("Versions: ", versions);
 
 createTempDir()
   .then(dir => {
     tmpDir = dir;
     return ffmpeg.audioToRaw(input, tmpDir);
   })
-  .then(rawAudioFile => audioPeaks.getPeaks(rawAudioFile))
-  .then(peaks => svgCreator.peaksToSvg(peaks))
-  .then(svg => writeToFile(svg, output))
+  .then(rawAudioFile => createSvgVersions(rawAudioFile, versions))
   .then(() => console.log("Done."))
   .catch(e => {
     console.log('Could not convert file: ',e);
     process.exit(1);
   })
   .finally(() => removeDir(tmpDir));
+function createSvgVersions(rawAudioFile, versions){
+  return new Promise((resolve, reject) => {
+    let promises = [];
+    versions.forEach((version) => {
+      promises.push(
+        createSvgVersion(rawAudioFile, version)
+      );
+    });
+
+    Promise.all(promises)
+      .then(resolve)
+      .catch(reject);
+  });
+}
+
+function createSvgVersion(rawAudioFile, version){
+  return new Promise((resolve, reject) => {
+    let audioPeaks = new AudioPeaks({
+      width: version,
+      precision: 1,
+      numOfChannels: 2,
+      sampleRate: 11500
+    });
+    let svgCreator = new SvgCreator(version);
+    audioPeaks.getPeaks(rawAudioFile)
+      .then(peaks => svgCreator.peaksToSvg(peaks))
+      .then(svg => writeToFile(svg, output.replace('.svg', `${version}.svg`)))
+      .then(resolve)
+      .catch(reject);
+  });
+}
 
 function createTempDir() {
   return new Promise((resolve, reject) => {
