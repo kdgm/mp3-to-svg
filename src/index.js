@@ -31,11 +31,15 @@ createTempDir()
   })
   .then(rawAudioFile => createSvgVersions(rawAudioFile, versions))
   .then(() => console.log("Done."))
-  .catch(e => {
-    console.log('Could not convert file: ',e);
-    process.exit(1);
+  .finally(() => {
+    console.log('finally');
+    return removeDir(tmpDir);
   })
-  .finally(() => removeDir(tmpDir));
+  .catch(e => {
+    console.error('Could not convert file: ',e);
+    process.exit(1);
+  });
+
 function createSvgVersions(rawAudioFile, versions){
   return new Promise((resolve, reject) => {
     let promises = [];
