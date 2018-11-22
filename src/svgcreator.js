@@ -32,13 +32,9 @@ class SvgCreator {
   }
 
   peaksToSvg(peaks) {
-    return new Promise((resolve, reject) => {
-      this.svgPath(peaks)
-        .then(path => this.buildSVG(path, this.numberOfSamples) )
-        .then(data => this.svgo.optimize(data))
-        .then(svg  => resolve(svg.data))
-        .catch(err => reject(err));
-    });
+    return this.svgPath(peaks)
+      .then(path => this.buildSVG(path, this.numberOfSamples) )
+      .then(data => this.svgo.optimize(data));
   }
 
 }

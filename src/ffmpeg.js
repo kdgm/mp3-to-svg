@@ -4,12 +4,8 @@ const spawn = require('child_process').spawn;
 class FFmpeg {
 
   audioToRaw(input, tmpPath){
-    return new Promise((resolve, reject) => {
-      this.ffmpegAudioRemux(input, tmpPath)
-        .then(remuxedFile => this.ffmpegAudioToRaw(remuxedFile, tmpPath))
-        .then(convertedFile => resolve(convertedFile))
-        .catch(err => reject(err));
-    });
+    return this.ffmpegAudioRemux(input, tmpPath)
+      .then(remuxedFile => this.ffmpegAudioToRaw(remuxedFile, tmpPath))
   }
 
   ffmpegAudioRemux(input, tmpPath) {

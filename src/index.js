@@ -29,35 +29,27 @@ function convertMP3toSVG(inputFile, outputFile, versions) {
 };
 
 function createSvgVersions(rawAudioFile, ouput, versions){
-  return new Promise((resolve, reject) => {
-    let promises = [];
-    versions.forEach((version) => {
-      promises.push(
-        createSvgVersion(rawAudioFile, ouput, version)
-      );
-    });
-
-    Promise.all(promises)
-      .then(resolve)
-      .catch(reject);
+  let promises = [];
+  versions.forEach((version) => {
+    promises.push(
+      createSvgVersion(rawAudioFile, ouput, version)
+    );
   });
+
+  return Promise.all(promises);
 }
 
 function createSvgVersion(rawAudioFile, output, version){
-  return new Promise((resolve, reject) => {
-    let audioPeaks = new AudioPeaks({
-      width: version,
-      precision: 1,
-      numOfChannels: 2,
-      sampleRate: 11500
-    });
-    let svgCreator = new SvgCreator(version);
-    audioPeaks.getPeaks(rawAudioFile)
-      .then(peaks => svgCreator.peaksToSvg(peaks))
-      .then(svg => writeToFile(svg, output.replace('.svg', `${version}.svg`)))
-      .then(resolve)
-      .catch(reject);
+  let audioPeaks = new AudioPeaks({
+    width: version,
+    precision: 1,
+    numOfChannels: 2,
+    sampleRate: 11500
   });
+  let svgCreator = new SvgCreator(version);
+  return audioPeaks.getPeaks(rawAudioFile)
+    .then(peaks => svgCreator.peaksToSvg(peaks))
+    .then(svg => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
 }
 
 function createTempDir() {
