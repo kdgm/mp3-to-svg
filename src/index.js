@@ -23,7 +23,7 @@ createTempDir()
     tmpDir = dir;
     return ffmpeg.audioToRaw(inputFile, tmpDir);
   })
-  .then(rawAudioFile => createSvgVersions(rawAudioFile, versions))
+  .then(rawAudioFile => createSvgVersions(rawAudioFile, ouputFile, versions))
   .then(() => console.log("Done."))
   .finally(() => {
     console.log('finally');
@@ -34,12 +34,12 @@ createTempDir()
     process.exit(1);
   });
 
-function createSvgVersions(rawAudioFile, versions){
+function createSvgVersions(rawAudioFile, ouput, versions){
   return new Promise((resolve, reject) => {
     let promises = [];
     versions.forEach((version) => {
       promises.push(
-        createSvgVersion(rawAudioFile, version)
+        createSvgVersion(rawAudioFile, ouput, version)
       );
     });
 
@@ -49,7 +49,7 @@ function createSvgVersions(rawAudioFile, versions){
   });
 }
 
-function createSvgVersion(rawAudioFile, version){
+function createSvgVersion(rawAudioFile, output, version){
   return new Promise((resolve, reject) => {
     let audioPeaks = new AudioPeaks({
       width: version,
