@@ -10,10 +10,7 @@ console.log("Ouput:", outputFile);
 console.log("Versions: ", versions);
 
 convertMP3toSVG(inputFile, outputFile, versions)
-  .then((result) => {
-    process.exit(0);
-  })
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
+    console.log('Something went wrong:',error);
+    process.exitCode = 1;
   });
