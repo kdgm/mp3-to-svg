@@ -24,5 +24,13 @@ describe('Main', function() {
       expect(fs.existsSync('spec/fixtures/test400.svg')).to.be.true;
       expect(fs.existsSync('spec/fixtures/test100.svg')).to.be.true;
     });
+
+    it('should create two SVG files from an audio file', async function() {
+      await convertMP3toSVG('spec/fixtures/test.mp3', 'spec/fixtures/test.svg', [400]);
+      await fs.stat('spec/fixtures/test400.svg', (err, stats) => {
+        expect(stats.size).to.equal(10046);
+      });
+    });
+
   });
 });
