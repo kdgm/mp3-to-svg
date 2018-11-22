@@ -9,19 +9,19 @@ const ffmpeg     = new (require('./ffmpeg.js'))();
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
-const [,, input, output, ...versions ] = process.argv;
+const [,, inputFile, outputFile, ...versions ] = process.argv;
 
 let tmpDir = '';
 
 console.log('Start MP3 to SVG.....');
-console.log("Input:", input);
-console.log("Ouput:", output);
+console.log("Input:", inputFile);
+console.log("Ouput:", outputFile);
 console.log("Versions: ", versions);
 
 createTempDir()
   .then(dir => {
     tmpDir = dir;
-    return ffmpeg.audioToRaw(input, tmpDir);
+    return ffmpeg.audioToRaw(inputFile, tmpDir);
   })
   .then(rawAudioFile => createSvgVersions(rawAudioFile, versions))
   .then(() => console.log("Done."))
