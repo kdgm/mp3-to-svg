@@ -2,7 +2,6 @@ const fs         = require('fs');
 const path       = require('path');
 const Readable   = require('stream').Readable;
 const rimraf     = require('rimraf');
-require('./promise_finally_polyfill.js')
 const FFmpeg     = require('./ffmpeg.js');
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
