@@ -9,13 +9,7 @@ const ffmpeg     = new (require('./ffmpeg.js'))();
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
-const input  = process.argv[2];
-const output = process.argv[3];
-
-const versions = [];
-for(let i=4; i < process.argv.length; i++ ) {
-  versions.push(process.argv[i]);
-}
+const [,, input, output, ...versions ] = process.argv;
 
 let tmpDir = '';
 
