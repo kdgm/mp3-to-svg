@@ -1,38 +1,32 @@
-#!/usr/bin/env node
-
 const fs         = require('fs');
 const path       = require('path');
 const Readable   = require('stream').Readable;
 const rimraf     = require('rimraf');
 require('./promise_finally_polyfill.js')
-const ffmpeg     = new (require('./ffmpeg.js'))();
+const FFmpeg     = require('./ffmpeg.js');
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
-const [,, inputFile, outputFile, ...versions ] = process.argv;
-
-let tmpDir = '';
-
-console.log('Start MP3 to SVG.....');
-console.log("Input:", inputFile);
-console.log("Ouput:", outputFile);
-console.log("Versions: ", versions);
-
-createTempDir()
-  .then(dir => {
-    tmpDir = dir;
-    return ffmpeg.audioToRaw(inputFile, tmpDir);
-  })
-  .then(rawAudioFile => createSvgVersions(rawAudioFile, ouputFile, versions))
-  .then(() => console.log("Done."))
-  .finally(() => {
-    console.log('finally');
-    return removeDir(tmpDir);
-  })
-  .catch(e => {
-    console.error('Could not convert file: ',e);
-    process.exit(1);
+const convertMP3toSVG = function(inputFile, outputFile, versions) {
+  return new Promise((resolve, reject) => {
+    let tmpDir = '';
+    createTempDir()
+      .then(dir => {
+        tmpDir = dir;
+        return (new FFmpeg).audioToRaw(inputFile, tmpDir);
+      })
+      .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
+      .then(() => {
+        removeDir(tmpDir)
+          .then(resolve);
+      })
+      .catch((e) => {
+        removeDir(tmpDir)
+          .then(reject(e))
+          .catch(reject(e));
+      });
   });
+};
 
 function createSvgVersions(rawAudioFile, ouput, versions){
   return new Promise((resolve, reject) => {
@@ -100,3 +94,5 @@ function removeDir(tmpDir) {
     });
   });
 }
+
+module.exports = { convertMP3toSVG }

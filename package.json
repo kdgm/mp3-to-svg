@@ -16,12 +16,12 @@
     "build": "babel --presets es2015 src -d lib",
     "prepublish": "npm run build",
     "start": "node lib/",
-    "dev": "./node_modules/.bin/babel-node src/",
+    "dev": "./node_modules/.bin/babel-node src/cli",
     "test-cov": "babel-node ./node_modules/.bin/isparta cover _mocha",
     "test": "babel-node ./node_modules/.bin/_mocha"
   },
   "bin": {
-    "mp3-to-svg": "./lib/index.js"
+    "mp3-to-svg": "./lib/cli.js"
   },
   "engines": {
     "node": ">=8.0",

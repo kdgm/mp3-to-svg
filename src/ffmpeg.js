@@ -1,7 +1,7 @@
 const path  = require('path');
 const spawn = require('child_process').spawn;
 
-class ffmpeg {
+class FFmpeg {
 
   audioToRaw(input, tmpPath){
     return new Promise((resolve, reject) => {
@@ -48,4 +48,4 @@ class ffmpeg {
 	};
 }
 
-module.exports = ffmpeg;
+module.exports = FFmpeg;
