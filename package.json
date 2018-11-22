@@ -1,7 +1,7 @@
 {
   "name": "mp3-to-svg",
   "version": "1.0.0",
-  "description": "Takes in an audio file and outputs a gzipped SVG waveform",
+  "description": "Takes in an audio file and outputs a SVG waveform",
   "main": "lib/index.js",
   "babel": {
     "presets": [
