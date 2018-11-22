@@ -18,3 +18,7 @@ You will need the following things properly installed on your computer.
 ## Running / Development
 
 * `npm run dev input.mp3 output.svg numberofsamples`
+
+## Testing
+
+* `npm test`
