@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { convertMP3toSVG } = require('./index.js');
+const convertMP3toSVG = require('./index.js');
 
 const [,, inputFile, outputFile, ...versions ] = process.argv;
 

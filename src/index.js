@@ -7,7 +7,7 @@ const FFmpeg     = require('./ffmpeg.js');
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
-const convertMP3toSVG = function(inputFile, outputFile, versions) {
+function convertMP3toSVG(inputFile, outputFile, versions) {
   return new Promise((resolve, reject) => {
     let tmpDir = '';
     createTempDir()
@@ -95,4 +95,4 @@ function removeDir(tmpDir) {
   });
 }
 
-module.exports = { convertMP3toSVG }
+module.exports = convertMP3toSVG
