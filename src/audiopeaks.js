@@ -116,11 +116,7 @@ class AudioPeaks {
 		}, opts || {});
 	}
 
-  getPeaks(rawAudioFile){
-    return this.getPeaksFromRawAudioFile(rawAudioFile);
-  }
-
-  getPeaksFromRawAudioFile(rawAudioFile) {
+  getPeaks(rawAudioFile) {
     return new Promise( (resolve, reject) => {
       fs.stat(rawAudioFile, (err, stats) => {
 		    if (err) reject(err);
