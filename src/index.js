@@ -1,4 +1,5 @@
 const fs         = require('fs');
+const os         = require('os');
 const path       = require('path');
 const Readable   = require('stream').Readable;
 const rimraf     = require('rimraf');
@@ -53,7 +54,7 @@ function createSvgVersion(rawAudioFile, output, version){
 
 function createTempDir() {
   return new Promise((resolve, reject) => {
-    fs.mkdtemp(path.join(__dirname, '../', 'tmp', 'ffpeaks-'), (err, tmpPath) => {
+    fs.mkdtemp(path.join(os.tmpdir(), 'ffpeaks-'), (err, tmpPath) => {
       if (err)
         reject(err);
       else {

@@ -10,7 +10,7 @@ describe('Main', function() {
     afterEach(function(){
       let files = glob.sync('spec/**/*.svg');
       files.forEach( (file) => {
-        fs.unlink(file);
+        fs.unlinkSync(file);
       });
     });
 
