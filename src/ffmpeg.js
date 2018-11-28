@@ -27,21 +27,21 @@ class FFmpeg {
   ffmpegAudioToRaw(input, tmpPath) {
     return new Promise((resolve, reject) => {
       var errorMsg = '';
-  		const rawfilepath = path.join(tmpPath, 'audio.raw');
-  		const ffmpeg = spawn('ffmpeg', [
-  			'-v', 'error',
-  			'-i', input,
-  			'-f', 's16le',
-  			'-ac', 2,
-  			'-acodec', 'pcm_s16le',
-  			'-ar', '11025',
-  			'-y', rawfilepath
-  		]);
-  		ffmpeg.stdout.on('end',  ()    => resolve(rawfilepath));
-  		ffmpeg.stderr.on('data', (err) => errorMsg += err.toString());
-  		ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)); });
+      const rawfilepath = path.join(tmpPath, 'audio.raw');
+      const ffmpeg = spawn('ffmpeg', [
+        '-v', 'error',
+        '-i', input,
+        '-f', 's16le',
+        '-ac', 2,
+        '-acodec', 'pcm_s16le',
+        '-ar', '11025',
+        '-y', rawfilepath
+      ]);
+      ffmpeg.stdout.on('end',  ()    => resolve(rawfilepath));
+      ffmpeg.stderr.on('data', (err) => errorMsg += err.toString());
+      ffmpeg.stderr.on('end',  ()    => { if (errorMsg) reject(new Error(errorMsg)); });
     });
-	};
+  };
 }
 
 module.exports = FFmpeg;

@@ -84,7 +84,7 @@ function writeToFile(data, filename) {
 function removeDir(tmpDir) {
   return new Promise( (resolve, reject) => {
     rimraf(tmpDir, (err) => {
-			if (err)
+      if (err)
         reject(err);
       else
         resolve();
