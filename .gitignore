@@ -39,7 +39,6 @@ jspm_packages
 #mac specific
 .DS_Store
 
-package-lock.json
 temp
 test/*.svg.gz
 tmp
