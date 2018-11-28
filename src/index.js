@@ -1,68 +1,23 @@
-const fs         = require('fs');
-const os         = require('os');
-const path       = require('path');
-const Readable   = require('stream').Readable;
-const rimraf     = require('rimraf');
-const FFmpeg     = require('./ffmpeg.js');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const { Readable } = require('stream');
+const rimraf = require('rimraf');
+const FFmpeg = require('./ffmpeg.js');
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
-
-function convertMP3toSVG(inputFile, outputFile, versions) {
-  return new Promise((resolve, reject) => {
-    let tmpDir = '';
-    createTempDir()
-      .then(dir => {
-        tmpDir = dir;
-        return (new FFmpeg).audioToRaw(inputFile, tmpDir);
-      })
-      .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
-      .then(() => {
-        removeDir(tmpDir)
-          .then(resolve);
-      })
-      .catch((e) => {
-        removeDir(tmpDir)
-          .then(reject(e))
-          .catch(reject(e));
-      });
-  });
-};
-
-function createSvgVersions(rawAudioFile, ouput, versions){
-  let promises = [];
-  versions.forEach((version) => {
-    promises.push(
-      createSvgVersion(rawAudioFile, ouput, version)
-    );
-  });
-
-  return Promise.all(promises);
-}
 
 function normalizePeaks(peaks, level = 0.85) {
   const scale = level / Math.max(Math.max(...peaks), Math.abs(Math.min(...peaks)));
   return peaks.map(x => x * scale);
 }
 
-function createSvgVersion(rawAudioFile, output, version){
-  let audioPeaks = new AudioPeaks({
-    width: version,
-    precision: 1,
-    numOfChannels: 2,
-    sampleRate: 11500
-  });
-  let svgCreator = new SvgCreator(version);
-  return audioPeaks.getPeaks(rawAudioFile)
-    .then(peaks => svgCreator.peaksToSvg(normalizePeaks(peaks)))
-    .then(svg => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
-}
-
 function createTempDir() {
   return new Promise((resolve, reject) => {
     fs.mkdtemp(path.join(os.tmpdir(), 'ffpeaks-'), (err, tmpPath) => {
-      if (err)
+      if (err) {
         reject(err);
-      else {
+      } else {
         resolve(tmpPath);
       }
     });
@@ -82,14 +37,58 @@ function writeToFile(data, filename) {
 }
 
 function removeDir(tmpDir) {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     rimraf(tmpDir, (err) => {
-      if (err)
+      if (err) {
         reject(err);
-      else
+      } else {
         resolve();
+      }
     });
   });
 }
 
-module.exports = convertMP3toSVG
+function createSvgVersion(rawAudioFile, output, version) {
+  const audioPeaks = new AudioPeaks({
+    width: version,
+    precision: 1,
+    numOfChannels: 2,
+    sampleRate: 11500,
+  });
+  const svgCreator = new SvgCreator(version);
+  return audioPeaks.getPeaks(rawAudioFile)
+    .then(peaks => svgCreator.peaksToSvg(normalizePeaks(peaks)))
+    .then(svg => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
+}
+
+function createSvgVersions(rawAudioFile, ouput, versions) {
+  const promises = [];
+  versions.forEach((version) => {
+    promises.push(createSvgVersion(rawAudioFile, ouput, version));
+  });
+
+  return Promise.all(promises);
+}
+
+function convertMP3toSVG(inputFile, outputFile, versions) {
+  return new Promise((resolve, reject) => {
+    let tmpDir = '';
+    createTempDir()
+      .then((dir) => {
+        tmpDir = dir;
+        return (new FFmpeg()).audioToRaw(inputFile, tmpDir);
+      })
+      .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
+      .then(() => {
+        removeDir(tmpDir)
+          .then(resolve);
+      })
+      .catch((e) => {
+        removeDir(tmpDir)
+          .then(reject(e))
+          .catch(reject(e));
+      });
+  });
+}
+
+module.exports = convertMP3toSVG;
