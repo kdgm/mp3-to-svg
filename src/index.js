@@ -39,6 +39,11 @@ function createSvgVersions(rawAudioFile, ouput, versions){
   return Promise.all(promises);
 }
 
+function normalizePeaks(peaks, level = 0.85) {
+  const scale = level / Math.max(Math.max(...peaks), Math.abs(Math.min(...peaks)));
+  return peaks.map(x => x * scale);
+}
+
 function createSvgVersion(rawAudioFile, output, version){
   let audioPeaks = new AudioPeaks({
     width: version,
@@ -48,7 +53,7 @@ function createSvgVersion(rawAudioFile, output, version){
   });
   let svgCreator = new SvgCreator(version);
   return audioPeaks.getPeaks(rawAudioFile)
-    .then(peaks => svgCreator.peaksToSvg(peaks))
+    .then(peaks => svgCreator.peaksToSvg(normalizePeaks(peaks)))
     .then(svg => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
 }
 
