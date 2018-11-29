@@ -38,7 +38,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "author": "Invoke",
+  "author": "Wouter Bin",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
