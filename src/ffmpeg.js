@@ -52,7 +52,7 @@ class FFmpeg {
 
 module.exports = FFmpeg;
 
-// https://github.com/t4nz/ffmpeg-peaks
+// https://github.com/t4nz/ffmpeg-peaks/commit/2cb0fb03e2ef9b490691c2b40da218ff82e79219
 
 // MIT License
 //
