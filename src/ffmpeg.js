@@ -6,6 +6,7 @@ class FFmpeg {
     this.opts = Object.assign({
       numOfChannels: 2,
       sampleRate: 44100,
+      userAgent: 'KDGM_WaveformGenerator/1.0 (https://kerkdienstgemist.nl)',
     }, opts || {});
   }
 
@@ -22,6 +23,7 @@ class FFmpeg {
         '-v', 'error',
         '-i', input,
         '-c:a', 'copy',
+        '-user-agent', this.opts.userAgent,
         '-y', remuxfilepath,
       ]);
       ffmpeg.stdout.on('end', () => resolve(remuxfilepath));
@@ -41,6 +43,7 @@ class FFmpeg {
         '-ac', this.opts.numOfChannels,
         '-acodec', 'pcm_s16le',
         '-ar', this.opts.sampleRate,
+        '-user-agent', this.opts.userAgent,
         '-y', rawfilepath,
       ]);
       ffmpeg.stdout.on('end', () => resolve(rawfilepath));
