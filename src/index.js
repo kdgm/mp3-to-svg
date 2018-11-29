@@ -54,7 +54,6 @@ function removeDir(tmpDir) {
 function createSvgVersion(rawAudioFile, output, version) {
   const audioPeaks = new AudioPeaks({
     width: version,
-    precision: 1,
     numOfChannels,
   });
   const svgCreator = new SvgCreator(version);
