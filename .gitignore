@@ -42,3 +42,4 @@ jspm_packages
 temp
 test/*.svg.gz
 tmp
+lib
