@@ -6,7 +6,7 @@ class FFmpeg {
     this.opts = Object.assign({
       numOfChannels: 2,
       sampleRate: 44100,
-      userAgent: 'KDGM_WaveformGenerator/1.0 (https://kerkdienstgemist.nl)',
+      userAgent: 'KDGM_WaveformGenerator/1.0.1 (https://kerkdienstgemist.nl)',
     }, opts || {});
   }
 
