@@ -108,7 +108,6 @@ class AudioPeaks {
 
     this.opts = Object.assign({
       numOfChannels: 2,
-      sampleRate: 44100,
       maxValue: 1.0,
       minValue: -1.0,
       width: 100,
@@ -133,7 +132,7 @@ class AudioPeaks {
         const readable = fs.createReadStream(rawAudioFile);
         readable.on('data', (chunk) => { peaks.update(this.onChunkRead(chunk)); });
         readable.on('error', () => reject());
-        readable.on('end', () => resolve(peaks.get()[0]));
+        readable.on('end', () => resolve(peaks.get()));
       });
     });
   }

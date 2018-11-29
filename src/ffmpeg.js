@@ -2,6 +2,13 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 class FFmpeg {
+  constructor(opts) {
+    this.opts = Object.assign({
+      numOfChannels: 2,
+      sampleRate: 44100,
+    }, opts || {});
+  }
+
   audioToRaw(input, tmpPath) {
     return this.ffmpegAudioRemux(input, tmpPath)
       .then(remuxedFile => this.ffmpegAudioToRaw(remuxedFile, tmpPath));
@@ -31,9 +38,9 @@ class FFmpeg {
         '-v', 'error',
         '-i', input,
         '-f', 's16le',
-        '-ac', 2,
+        '-ac', this.opts.numOfChannels,
         '-acodec', 'pcm_s16le',
-        '-ar', '11025',
+        '-ar', this.opts.sampleRate,
         '-y', rawfilepath,
       ]);
       ffmpeg.stdout.on('end', () => resolve(rawfilepath));

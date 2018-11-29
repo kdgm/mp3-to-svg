@@ -7,6 +7,9 @@ const FFmpeg = require('./ffmpeg.js');
 const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
+const numOfChannels = 1;
+const sampleRate = 11025;
+
 function normalizePeaks(peaks, level = 0.85) {
   const scale = level / Math.max(Math.max(...peaks), Math.abs(Math.min(...peaks)));
   return peaks.map(x => x * scale);
@@ -52,8 +55,7 @@ function createSvgVersion(rawAudioFile, output, version) {
   const audioPeaks = new AudioPeaks({
     width: version,
     precision: 1,
-    numOfChannels: 2,
-    sampleRate: 11500,
+    numOfChannels,
   });
   const svgCreator = new SvgCreator(version);
   return audioPeaks.getPeaks(rawAudioFile)
@@ -76,7 +78,7 @@ function convertMP3toSVG(inputFile, outputFile, versions) {
     createTempDir()
       .then((dir) => {
         tmpDir = dir;
-        return (new FFmpeg()).audioToRaw(inputFile, tmpDir);
+        return (new FFmpeg({ sampleRate, numOfChannels })).audioToRaw(inputFile, tmpDir);
       })
       .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
       .then(() => {
