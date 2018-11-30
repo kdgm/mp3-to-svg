@@ -1,3 +1,6 @@
+## Release 1.0.2
+- [new] generate a svg waveform from an audio file
+
 ## Release 1.0.1
 
 
