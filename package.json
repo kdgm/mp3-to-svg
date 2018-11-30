@@ -15,10 +15,9 @@
     "extends": "airbnb/base"
   },
   "scripts": {
+    "prepare": "npm run build",
     "lint": "eslint src/**",
     "build": "babel --presets es2015 src -d lib",
-    "prepare": "npm run build",
-    "install": "npm run prepare",
     "start": "node lib/cli",
     "dev": "./node_modules/.bin/babel-node src/cli",
     "test-cov": "babel-node ./node_modules/.bin/isparta cover _mocha",
