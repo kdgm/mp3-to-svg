@@ -1,3 +1,6 @@
+## Release 1.0.3
+- [enh] Exit only on fatal exception of ffmpeg
+
 ## Release 1.0.2
 - [enh] make git installable
 
