@@ -26,9 +26,14 @@ class FFmpeg {
         '-user-agent', this.opts.userAgent,
         '-y', remuxfilepath,
       ]);
-      ffmpeg.stdout.on('end', () => resolve(remuxfilepath));
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
-      ffmpeg.stderr.on('end', () => { if (errorMsg) reject(new Error(errorMsg)); });
+      ffmpeg.on('close', (exitCode) => {
+        if (exitCode) {
+          reject(new Error(errorMsg));
+        } else {
+          resolve(remuxfilepath);
+        }
+      });
     });
   }
 
@@ -46,9 +51,14 @@ class FFmpeg {
         '-user-agent', this.opts.userAgent,
         '-y', rawfilepath,
       ]);
-      ffmpeg.stdout.on('end', () => resolve(rawfilepath));
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
-      ffmpeg.stderr.on('end', () => { if (errorMsg) reject(new Error(errorMsg)); });
+      ffmpeg.on('close', (exitCode) => {
+        if (exitCode) {
+          reject(new Error(errorMsg));
+        } else {
+          resolve(rawfilepath);
+        }
+      });
     });
   }
 }
