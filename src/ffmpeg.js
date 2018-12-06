@@ -21,9 +21,9 @@ class FFmpeg {
       const remuxfilepath = path.join(tmpPath, 'remux.mp3');
       const ffmpeg = spawn('ffmpeg', [
         '-v', 'error',
+        '-user_agent', this.opts.userAgent,
         '-i', input,
         '-c:a', 'copy',
-        '-user-agent', this.opts.userAgent,
         '-y', remuxfilepath,
       ]);
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
