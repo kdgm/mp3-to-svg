@@ -1,13 +1,14 @@
 const path = require('path');
 const { spawn } = require('child_process');
 const { URL } = require('url');
+const pjson = require('../package.json');
 
 class FFmpeg {
   constructor(opts) {
     this.opts = Object.assign({
       numOfChannels: 2,
       sampleRate: 44100,
-      userAgent: 'KDGM_WaveformGenerator/1.0.1 (https://kerkdienstgemist.nl)',
+      userAgent: `KDGM_WaveformGenerator/${pjson.version} (https://kerkdienstgemist.nl)`,
     }, opts || {});
   }
 
