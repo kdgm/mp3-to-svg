@@ -13,8 +13,7 @@ class FFmpeg {
 
   isURL(input) {
     try {
-      // eslint-disable-next-line no-new
-      new URL(input);
+      new URL(input); // eslint-disable-line no-new
     } catch (e) {
       if (e.name === 'TypeError [ERR_INVALID_URL]') {
         return false;
