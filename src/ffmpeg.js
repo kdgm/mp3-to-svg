@@ -1,13 +1,27 @@
 const path = require('path');
 const { spawn } = require('child_process');
+const { URL } = require('url');
+const pjson = require('../package.json');
 
 class FFmpeg {
   constructor(opts) {
     this.opts = Object.assign({
       numOfChannels: 2,
       sampleRate: 44100,
-      userAgent: 'KDGM_WaveformGenerator/1.0.1 (https://kerkdienstgemist.nl)',
+      userAgent: `KDGM_WaveformGenerator/${pjson.version} (https://kerkdienstgemist.nl)`,
     }, opts || {});
+  }
+
+  isURL(input) {
+    try {
+      new URL(input); // eslint-disable-line no-new
+    } catch (e) {
+      if (e.name === 'TypeError [ERR_INVALID_URL]') {
+        return false;
+      }
+      throw e;
+    }
+    return true;
   }
 
   audioToRaw(input, tmpPath) {
@@ -19,11 +33,12 @@ class FFmpeg {
     return new Promise((resolve, reject) => {
       let errorMsg = '';
       const remuxfilepath = path.join(tmpPath, 'remux.mp3');
+      const userAgentArgument = this.isURL(input) ? ['-user_agent', this.opts.userAgent] : [];
       const ffmpeg = spawn('ffmpeg', [
         '-v', 'error',
+        ...userAgentArgument,
         '-i', input,
         '-c:a', 'copy',
-        '-user-agent', this.opts.userAgent,
         '-y', remuxfilepath,
       ]);
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
@@ -48,7 +63,6 @@ class FFmpeg {
         '-ac', this.opts.numOfChannels,
         '-acodec', 'pcm_s16le',
         '-ar', this.opts.sampleRate,
-        '-user-agent', this.opts.userAgent,
         '-y', rawfilepath,
       ]);
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
