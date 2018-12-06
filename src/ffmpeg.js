@@ -1,5 +1,6 @@
 const path = require('path');
 const { spawn } = require('child_process');
+const URL = require('url');
 
 class FFmpeg {
   constructor(opts) {
@@ -8,6 +9,10 @@ class FFmpeg {
       sampleRate: 44100,
       userAgent: 'KDGM_WaveformGenerator/1.0.1 (https://kerkdienstgemist.nl)',
     }, opts || {});
+  }
+
+  isURL(input) {
+    try { URL(input); return true; } catch (e) { return false; }
   }
 
   audioToRaw(input, tmpPath) {
@@ -19,9 +24,10 @@ class FFmpeg {
     return new Promise((resolve, reject) => {
       let errorMsg = '';
       const remuxfilepath = path.join(tmpPath, 'remux.mp3');
+      const userAgentArgument = this.isURL(input) ? ['-user_agent', this.opts.userAgent] : [];
       const ffmpeg = spawn('ffmpeg', [
         '-v', 'error',
-        '-user_agent', this.opts.userAgent,
+        ...userAgentArgument,
         '-i', input,
         '-c:a', 'copy',
         '-y', remuxfilepath,
