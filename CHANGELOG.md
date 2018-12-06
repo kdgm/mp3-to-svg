@@ -1,3 +1,6 @@
+## Release 1.0.4
+- [fix] user_agent argument should be in front of -i in ffmpeg argument list
+
 ## Release 1.0.3
 - [enh] Exit only on fatal exception of ffmpeg
 
