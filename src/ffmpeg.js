@@ -1,6 +1,6 @@
 const path = require('path');
 const { spawn } = require('child_process');
-const URL = require('url');
+const { URL } = require('url');
 
 class FFmpeg {
   constructor(opts) {
@@ -12,7 +12,16 @@ class FFmpeg {
   }
 
   isURL(input) {
-    try { URL(input); return true; } catch (e) { return false; }
+    try {
+      // eslint-disable-next-line no-new
+      new URL(input);
+    } catch (e) {
+      if (e.name === 'TypeError [ERR_INVALID_URL]') {
+        return false;
+      }
+      throw e;
+    }
+    return true;
   }
 
   audioToRaw(input, tmpPath) {
