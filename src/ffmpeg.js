@@ -48,7 +48,6 @@ class FFmpeg {
         '-ac', this.opts.numOfChannels,
         '-acodec', 'pcm_s16le',
         '-ar', this.opts.sampleRate,
-        '-user-agent', this.opts.userAgent,
         '-y', rawfilepath,
       ]);
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
