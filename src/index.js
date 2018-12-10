@@ -77,7 +77,7 @@ function convertMP3toSVG(inputFile, outputFile, versions) {
     createTempDir()
       .then((dir) => {
         tmpDir = dir;
-        return (new FFmpeg({ sampleRate, numOfChannels })).audioToRaw(inputFile, tmpDir);
+        return (new FFmpeg({ sampleRate, numOfChannels })).ffmpegAudioToRaw(inputFile, tmpDir);
       })
       .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
       .then(() => {
