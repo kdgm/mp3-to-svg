@@ -8,7 +8,7 @@ const AudioPeaks = require('./audiopeaks.js');
 const SvgCreator = require('./svgcreator.js');
 
 const numOfChannels = 1;
-const sampleRate = 11025;
+const sampleRate = 8000;
 
 function normalizePeaks(peaks, level = 0.85) {
   const scale = level / Math.max(Math.max(...peaks), Math.abs(Math.min(...peaks)));
