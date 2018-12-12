@@ -59,10 +59,9 @@ class FFmpeg {
       const ffmpeg = spawn('ffmpeg', [
         '-v', 'error',
         '-i', input,
-        '-f', 's16le',
         '-ac', this.opts.numOfChannels,
-        '-acodec', 'pcm_s16le',
         '-ar', this.opts.sampleRate,
+        '-f', 's16le',
         '-y', rawfilepath,
       ]);
       ffmpeg.stderr.on('data', (err) => { errorMsg += err.toString(); });
