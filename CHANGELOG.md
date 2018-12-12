@@ -1,3 +1,7 @@
+## Release 1.0.5
+- [enh] improve performance by not remuxing mp3; let's see if this causes problems
+- [enh] improve performance by dropping sampleRate to 8kHz (enough for building accurate enough waveform)
+
 ## Release 1.0.4
 - [fix] user_agent argument should be in front of -i in ffmpeg argument list
 
