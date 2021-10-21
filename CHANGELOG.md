@@ -1,3 +1,6 @@
+## Release 1.0.6
+Merge pull request #8 from kdgm/feature/enh/stroke-color-pastel-green
+
 ## Release 1.0.5
 - [enh] improve performance by not remuxing mp3; let's see if this causes problems
 - [enh] improve performance by dropping sampleRate to 8kHz (enough for building accurate enough waveform)
