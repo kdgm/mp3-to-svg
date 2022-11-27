@@ -28,8 +28,8 @@
     "mp3-to-svg": "./dist/cli.js"
   },
   "engines": {
-    "node": ">=10.0",
-    "npm": ">=6.0"
+    "node": ">=16.0",
+    "npm": ">=8.0"
   },
   "repository": {
     "type": "git",
