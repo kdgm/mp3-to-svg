@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+/* eslint no-console: ["error", { allow: ["log"] }] */
 
-const convertMP3toSVG = require('./index.js');
+const convertMP3toSVG = require('./index');
 
 const [,, inputFile, outputFile, ...versions] = process.argv;
 

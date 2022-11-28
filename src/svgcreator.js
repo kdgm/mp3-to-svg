@@ -39,8 +39,8 @@ class SvgCreator {
 
   peaksToSvg(peaks) {
     return this.svgPath(peaks)
-      .then(path => this.buildSVG(path, this.numberOfSamples))
-      .then(data => this.svgo.optimize(data));
+      .then((path) => this.buildSVG(path, this.numberOfSamples))
+      .then((data) => this.svgo.optimize(data));
   }
 }
 
