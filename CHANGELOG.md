@@ -1,3 +1,8 @@
+## Release 2.0.0
+- [enh] npm upgrade (loosen version requirements)
+- [enh] upgrade to node 16
+- [add] dev container
+
 ## Release 1.0.6
 Merge pull request #8 from kdgm/feature/enh/stroke-color-pastel-green
 
