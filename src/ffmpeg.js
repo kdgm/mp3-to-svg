@@ -5,7 +5,7 @@ const pjson = require('../package.json');
 
 class FFmpeg {
   constructor(opts) {
-    this.opts = Object.assign({
+    this.opts = Object.assign({ // eslint-disable-line prefer-object-spread
       numOfChannels: 2,
       sampleRate: 44100,
       userAgent: `KDGM_WaveformGenerator/${pjson.version} (https://kerkdienstgemist.nl)`,
@@ -26,7 +26,7 @@ class FFmpeg {
 
   audioToRaw(input, tmpPath) {
     return this.ffmpegAudioRemux(input, tmpPath)
-      .then(remuxedFile => this.ffmpegAudioToRaw(remuxedFile, tmpPath));
+      .then((remuxedFile) => this.ffmpegAudioToRaw(remuxedFile, tmpPath));
   }
 
   ffmpegAudioRemux(input, tmpPath) {

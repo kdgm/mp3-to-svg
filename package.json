@@ -1,6 +1,6 @@
 {
   "name": "mp3-to-svg",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Takes in an audio file and outputs a SVG waveform",
   "main": "dist/index.js",
   "babel": {
@@ -15,6 +15,8 @@
     "extends": "airbnb/base"
   },
   "scripts": {
+    "requirements-check": "node check-version.js",
+    "postinstall": "npm run requirements-check",
     "prepare": "npm run build",
     "lint": "eslint src/**",
     "build": "babel --presets es2015 src -d dist",
@@ -22,14 +24,14 @@
     "dev": "./node_modules/.bin/babel-node src/cli",
     "test-cov": "babel-node ./node_modules/.bin/isparta cover _mocha",
     "test-dev": "babel-node ./node_modules/.bin/_mocha spec/*spec.js --watch",
-    "test": "babel-node ./node_modules/.bin/_mocha spec/*spec.js"
+    "test": "mkdir -p tmp && babel-node ./node_modules/.bin/_mocha spec/*spec.js"
   },
   "bin": {
     "mp3-to-svg": "./dist/cli.js"
   },
   "engines": {
-    "node": ">=10.0",
-    "npm": ">=6.0"
+    "node": "~>16",
+    "npm": "~>8"
   },
   "repository": {
     "type": "git",
@@ -46,16 +48,17 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^3.5.0",
-    "eslint": "^5.9",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint": ">=5",
+    "eslint-config-airbnb": ">=1",
+    "eslint-config-airbnb-base": ">=1",
+    "eslint-plugin-import": ">=2",
     "glob": "^7.1.3",
     "isparta": "^4.0.0",
     "mocha": "^3.5.0"
   },
   "dependencies": {
     "rimraf": "^2.6.1",
+    "semver": "^7.3.8",
     "svgo": "^1.0.3"
   }
 }

@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+/* eslint max-classes-per-file: ["error", 2] */
+
 class Peaks {
   constructor(splitChannels, length, step, totalSamples) {
     this.length = length;
@@ -106,7 +108,7 @@ class AudioPeaks {
     this.oddByte = null;
     this.sc = 0;
 
-    this.opts = Object.assign({
+    this.opts = Object.assign({ // eslint-disable-line prefer-object-spread
       numOfChannels: 2,
       maxValue: 1.0,
       minValue: -1.0,

@@ -3,16 +3,16 @@ const os = require('os');
 const path = require('path');
 const { Readable } = require('stream');
 const rimraf = require('rimraf');
-const FFmpeg = require('./ffmpeg.js');
-const AudioPeaks = require('./audiopeaks.js');
-const SvgCreator = require('./svgcreator.js');
+const FFmpeg = require('./ffmpeg');
+const AudioPeaks = require('./audiopeaks');
+const SvgCreator = require('./svgcreator');
 
 const numOfChannels = 1;
 const sampleRate = 8000;
 
 function normalizePeaks(peaks, level = 0.85) {
   const scale = level / Math.max(Math.max(...peaks), Math.abs(Math.min(...peaks)));
-  return peaks.map(x => x * scale);
+  return peaks.map((x) => x * scale);
 }
 
 function createTempDir() {
@@ -35,7 +35,7 @@ function writeToFile(data, filename) {
     readable
       .pipe(fs.createWriteStream(filename))
       .on('finish', () => resolve())
-      .on('error', err => reject(err));
+      .on('error', (err) => reject(err));
   });
 }
 
@@ -58,8 +58,8 @@ function createSvgVersion(rawAudioFile, output, version) {
   });
   const svgCreator = new SvgCreator(version);
   return audioPeaks.getPeaks(rawAudioFile)
-    .then(peaks => svgCreator.peaksToSvg(normalizePeaks(peaks)))
-    .then(svg => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
+    .then((peaks) => svgCreator.peaksToSvg(normalizePeaks(peaks)))
+    .then((svg) => writeToFile(svg.data, output.replace('.svg', `${version}.svg`)));
 }
 
 function createSvgVersions(rawAudioFile, ouput, versions) {
@@ -79,7 +79,7 @@ function convertMP3toSVG(inputFile, outputFile, versions) {
         tmpDir = dir;
         return (new FFmpeg({ sampleRate, numOfChannels })).ffmpegAudioToRaw(inputFile, tmpDir);
       })
-      .then(rawAudioFile => createSvgVersions(rawAudioFile, outputFile, versions))
+      .then((rawAudioFile) => createSvgVersions(rawAudioFile, outputFile, versions))
       .then(() => {
         removeDir(tmpDir)
           .then(resolve);
