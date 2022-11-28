@@ -1,6 +1,6 @@
-import semver from 'semver';
-import { exec } from 'child_process';
-import { engines } from './package.json';
+const semver = require('semver');
+const { exec } = require('child_process');
+const { engines } = require('./package.json');
 
 // check engines.node.version
 const requiredNodeVersion = engines.node;

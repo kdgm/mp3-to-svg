@@ -15,7 +15,7 @@
     "extends": "airbnb/base"
   },
   "scripts": {
-    "requirements-check": "babel-node check-version.js",
+    "requirements-check": "node check-version.js",
     "postinstall": "npm run requirements-check",
     "prepare": "npm run build",
     "lint": "eslint src/**",
