@@ -23,3 +23,10 @@ You will need the following things properly installed on your computer.
 ## Testing
 
 * `npm test`
+
+## Release
+
+* `npm install`
+* `npm build`
+* Commit the new dist files
+* `kdgm-release x.y.z`
