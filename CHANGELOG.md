@@ -1,3 +1,7 @@
+## Release 2.1.0
+- [add] Publish dist directory
+Merge tag '2.0.0' into develop
+
 ## Release 2.0.0
 - [enh] npm upgrade (loosen version requirements)
 - [enh] upgrade to node 16
