@@ -1,6 +1,6 @@
 {
   "name": "mp3-to-svg",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Takes in an audio file and outputs a SVG waveform",
   "main": "dist/index.js",
   "babel": {
