@@ -1,3 +1,6 @@
+## Release 2.1.1
+- [add] GH Action for CI testing (lint and test)
+
 ## Release 2.1.0
 - [add] Publish dist directory
 Merge tag '2.0.0' into develop
