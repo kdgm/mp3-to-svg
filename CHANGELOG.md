@@ -1,3 +1,6 @@
+## Release 3.0.0
+- [merge] #9 [DS-1] Upgraded library to be run in modern Node versions 
+
 ## Release 2.1.1
 - [add] GH Action for CI testing (lint and test)
 
