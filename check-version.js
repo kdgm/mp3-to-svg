@@ -1,24 +1,22 @@
-const semver = require('semver');
-const { exec } = require('child_process');
-const { engines } = require('./package.json');
+import semver from 'semver'
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
+
+// Get directory name in ES modules
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// Read package.json
+const packageJson = JSON.parse(readFileSync(resolve(__dirname, './package.json'), 'utf8'))
+const { engines } = packageJson
 
 // check engines.node.version
-const requiredNodeVersion = engines.node;
-const actualNodeVersion = process.version;
-if (!semver.satisfies(actualNodeVersion, requiredNodeVersion)) {
-  console.log(`Required node version ${requiredNodeVersion} not satisfied with current version ${actualNodeVersion}.`);
-  process.exit(1);
-}
+const requiredNodeVersion = engines.node
+const actualNodeVersion = process.version
 
-// check engines.npm.version
-const requiredNpmVersion = engines.npm;
-exec(
-  'npm -v',
-  (error, stdout) => {
-    const actualNpmVersion = stdout;
-    if (!semver.satisfies(actualNpmVersion, requiredNpmVersion)) {
-      console.log(`Required node version ${requiredNpmVersion} not satisfied with current version ${actualNpmVersion}.`);
-      process.exit(1);
-    }
-  },
-);
+if (!semver.satisfies(actualNodeVersion, requiredNodeVersion)) {
+    console.log(
+        `Required node version ${requiredNodeVersion} not satisfied with current version ${actualNodeVersion}.`
+    )
+    process.exit(1)
+}
